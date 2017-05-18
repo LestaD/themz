@@ -6,10 +6,13 @@
   "module": "src/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src",
+    "test": "npm run test:lint && npm run test:unit",
+    "test:lint": "eslint src",
+    "test:unit": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "build": "cross-env NODE_ENV=production babel -d ./dist ./src",
-    "prepublish": "npm run lint && npm run test"
+    "prepublish": "npm run lint && npm run test",
+    "dev": "npm run build -- --watch",
+    "clean": "rimraf ./dist ./coverage"
   },
   "repository": {
     "type": "git",
@@ -50,22 +53,20 @@
     "jest-cli": "^18.1.0",
     "rimraf": "^2.5.4"
   },
+  "typings": "index.d.ts",
   "jest": {
-    "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
       ".*": "<rootDir>/node_modules/babel-jest"
     },
     "unmockedModulePathPatterns": [
       "ramda"
     ],
-    "modulePaths": [
-      "src"
-    ],
     "collectCoverage": true,
     "coverageReporters": [
       "json",
       "lcov"
-    ]
-  },
-  "typings": "index.d.ts"
+    ],
+    "testRegex": "/test/.*\\.js$"
+  }
+
 }
