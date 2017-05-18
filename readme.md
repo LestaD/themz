@@ -2,6 +2,12 @@
 
 ## Readme
 
+[![Build Status](https://travis-ci.org/LestaD/themz.svg?branch=master)](https://travis-ci.org/LestaD/themz)
+[![npm](https://img.shields.io/npm/v/themz.svg)](https://npmjs.com/themz)
+[![David](https://img.shields.io/david/lestad/themz.svg)](https://github.com/lestad/themz)
+[![license](https://img.shields.io/github/license/lestad/themz.svg)](https://github.com/lestad/themz)
+
+
 Themz is helpers library for easy theming with [StyledComponents](https://styled-components.com), [ReactJSS](http://cssinjs.org/react-jss), [StyledJSS](http://cssinjs.org/styled-jss)
 
 
