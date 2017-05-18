@@ -1,0 +1,71 @@
+{
+  "name": "themz",
+  "version": "0.1.0",
+  "description": "Selectors for theming in StyledComponents and JSS",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src",
+    "build": "cross-env NODE_ENV=production babel -d ./dist ./src",
+    "prepublish": "npm run lint && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LestaD/themz.git"
+  },
+  "keywords": [
+    "theme",
+    "styled",
+    "components",
+    "jss",
+    "react",
+    "select",
+    "object",
+    "plain",
+    "assign",
+    "deep"
+  ],
+  "author": "Sergey Sova <i.am@lestad.net> (https://lestad.top)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LestaD/themz/issues"
+  },
+  "homepage": "https://github.com/LestaD/themz#readme",
+  "dependencies": {
+    "ramda": "^0.23.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.21.0",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^18.0.0",
+    "babel-plugin-ramda": "^1.2.0",
+    "babel-preset-es2015": "^6.18.0",
+    "cross-env": "^3.1.4",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "jest": "^18.1.0",
+    "jest-cli": "^18.1.0",
+    "rimraf": "^2.5.4"
+  },
+  "jest": {
+    "testResultsProcessor": "jest-teamcity-reporter",
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    },
+    "unmockedModulePathPatterns": [
+      "ramda"
+    ],
+    "modulePaths": [
+      "src"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov"
+    ]
+  },
+  "typings": "index.d.ts"
+}
