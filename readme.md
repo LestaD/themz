@@ -112,4 +112,86 @@ See [tests](/test/index.js)
 
 ### theme
 
-Just select properties
+Just select properties from `theme` property
+
+```js
+const styles = {
+  value: theme('palette'), // will be object
+  color: theme(['palette', 'accentLight']), // like: palette('accent', 'Light')
+  width: theme(['width', 'control', 'medium']), // same as: props => props.theme.width.control.medium
+}
+```
+
+### cond
+
+Apply value if property exists in props object
+
+```js
+const styles = {
+  backgroundColor: cond('opened', ['palette', 'accent']),
+  textDecoration: cond('active', 'underline'),
+}
+```
+
+### breakpoint
+
+Simple select breakpoint from theme. (Default size is `medium`)
+
+```js
+const Demo = styled.div`
+  @media screen and (max-width: ${breakpoint('desktop')}) {
+    padding: ${size('controlPadding')};
+  }
+
+  @media screen and (max-width: ${breakpoint('desktop', 'small')}) {
+    padding: ${size('controlSmall')};
+  }
+`
+```
+
+### palette
+
+Select color from theme. By default shade is `''`
+
+```js
+const styles = {
+  backgroundColor: palette('accent', 'Light'), // same as props => props.theme.palette.accentLight
+  color: palette('black'), // props => props.theme.palette.black
+}
+```
+
+### size
+
+Get size from `theme.sizes`
+
+```js
+const styles = {
+  width: size('block1/2'), // props => props.theme.sizes['block1/2']
+}
+```
+
+### propIf
+
+Execute condition, and it `true` return branch
+
+```js
+const styles = {
+  padding: propIf(props => props.type === 'global', size('controlLarge')),
+  color: propIf('active', palette('secondary', 'Light')),
+  boxShadow: propIf('active', '1px 0 9px -1px #121412'),
+}
+```
+
+### propIfElse
+
+```js
+const styles = {
+  padding: propIf(
+    props => props.type === 'global',
+    size('controlLarge'),
+    size('controlMedium')
+  ),
+  color: propIf('active', palette('secondary', 'Light'), palette('accent')),
+  boxShadow: propIf('active', '1px 0 9px -1px #121412', 'none'),
+}
+```
