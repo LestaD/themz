@@ -10,7 +10,7 @@
     "test:lint": "eslint src",
     "test:unit": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "build": "cross-env NODE_ENV=production babel -d ./dist ./src",
-    "prepublish": "npm run lint && npm run test",
+    "prepublish": "npm run test",
     "dev": "npm run build -- --watch",
     "clean": "rimraf ./dist ./coverage"
   },
