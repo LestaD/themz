@@ -1,6 +1,6 @@
 {
   "name": "themz",
-  "version": "1.0.0-pre.0",
+  "version": "1.0.0-pre.1",
   "description": "Selectors for theming in StyledComponents and JSS",
   "main": "dist/index.js",
   "module": "src/index.js",
