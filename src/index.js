@@ -1,48 +1,32 @@
-import { path, pathOr } from 'ramda'
+import { path } from 'ramda'
 
 const isfunc = val => typeof val === 'function'
 const isstr = val => typeof val === 'string'
 
 /**
- * @param {Object} props - Component props
- * @return {String} - Component name
+ * @param {String[]} idx - Value path
+ * @return {String} - Error message
  */
-const getComponentName = props =>
-  pathOr('Unknown', ['children', '_owner', '_currentElement', 'type', 'displayName'], props)
-
-
-/**
- * @param {(String|String[])} sections - Value path or name
- * @param {String} key - Key name
- * @param {String} componentName - Component name
- */
-const showWarning = (sections, key, componentName) => {
-  // eslint-disable-next-line no-console
-  console.warn(
-    `[themz] At section: %c${sections.join('.')}, %cnot found key: %c${key}. %cCalled in component: %c${componentName}`,
-    'font-weight: bold',
-    'font-weight: normal',
-    'font-weight: bold',
-    'font-weight: normal',
-    'font-weight: bold',
-  )
+export const getErrorMessage = (idx) => {
+  /* skip first value */
+  const [, ...sections] = idx
+  const key = sections.pop()
+  return `[themz] At section: ${sections.join('.')}, not found key: ${key}.`
 }
 
 
 /**
- * @param {(String|String[])} idx - Value path or name
- * @return {stringAny} - Value or CSS retrieved from theme
+ * @param {String[]} idx - Value path
+ * @return {(String|Any)} - Value or CSS retrieved from theme
  */
 const getByPath = (idx) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV !== 'production') {
+    const error = new Error()
     return (props) => {
       const value = path(idx, props)
       if (!value) {
-        /* skip first value */
-        const [, ...sections] = idx
-        const key = sections.pop()
-        const componentName = getComponentName(props)
-        showWarning(sections, key, componentName)
+        error.message = getErrorMessage(idx)
+        throw error
       }
       return value
     }
