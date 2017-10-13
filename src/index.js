@@ -1,5 +1,6 @@
 import { path } from 'ramda'
 
+
 const isfunc = val => typeof val === 'function'
 const isstr = val => typeof val === 'string'
 
@@ -22,6 +23,7 @@ export const getErrorMessage = (idx) => {
 const getByPath = (idx) => {
   if (process.env.NODE_ENV !== 'production') {
     const error = new Error()
+
     return (props) => {
       const value = path(idx, props)
       if (!value) {
@@ -89,8 +91,8 @@ export const size = name =>
  */
 export const propIfElse = (condition, truthy, falsy = undefined) => props =>
   (isfunc(condition) ? condition(props) : (isstr(condition) ? !!props[condition] : !!condition))
-  ? isfunc(truthy) ? truthy(props) : truthy
-  : isfunc(falsy) ? falsy(props) : falsy
+    ? isfunc(truthy) ? truthy(props) : truthy
+    : isfunc(falsy) ? falsy(props) : falsy
 
 
 /**
@@ -100,5 +102,5 @@ export const propIfElse = (condition, truthy, falsy = undefined) => props =>
  */
 export const propIf = (condition, truthy) => props =>
   (isfunc(condition) ? condition(props) : (isstr(condition) ? !!props[condition] : !!condition))
-  ? isfunc(truthy) ? truthy(props) : truthy
-  : undefined
+    ? isfunc(truthy) ? truthy(props) : truthy
+    : undefined
