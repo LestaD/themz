@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb-base",
+  "extends": "atomix-base",
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -13,19 +13,8 @@
   "rules": {
     "strict": "off",
     "no-unused-vars": [ "warn", { "varsIgnorePattern": "React", "ignoreRestSiblings": false } ],
-    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
-    "semi": [ "error", "never" ],
     "no-confusing-arrow": "off",
-    "comma-dangle": ["error", {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "always-multiline"
-    }],
     "linebreak-style": "off",
-    "brace-style": ["error", "stroustrup"],
-    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before", "&&": "before", "+": "before", "||": "before" } }],
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": "off",
