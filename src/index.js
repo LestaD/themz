@@ -4,11 +4,43 @@ const isfunc = val => typeof val === 'function'
 const isstr = val => typeof val === 'string'
 
 /**
+ * @param {String[]} idx - Value path
+ * @return {String} - Error message
+ */
+export const getErrorMessage = (idx) => {
+  /* skip first value */
+  const [, ...sections] = idx
+  const key = sections.pop()
+  return `[themz] At section: ${sections.join('.')}, not found key: ${key}.`
+}
+
+
+/**
+ * @param {String[]} idx - Value path
+ * @return {(String|Any)} - Value or CSS retrieved from theme
+ */
+const getByPath = (idx) => {
+  if (process.env.NODE_ENV !== 'production') {
+    const error = new Error()
+    return (props) => {
+      const value = path(idx, props)
+      if (!value) {
+        error.message = getErrorMessage(idx)
+        throw error
+      }
+      return value
+    }
+  }
+  return path(idx)
+}
+
+
+/**
  * @param  {(String|String[])} name     Value path or name
  * @return {Any}            Value or CSS retrieved from theme
  */
 export const theme = name =>
-  path(['theme'].concat(name))
+  getByPath(['theme'].concat(name))
 
 
 /**
@@ -17,7 +49,7 @@ export const theme = name =>
  * @return {CSS|false}                    CSS from theme if condition is truthy
  */
 export const cond = (condProp, themePart) => props =>
-  props[condProp] && path(['theme'].concat(themePart))(props)
+  props[condProp] && getByPath(['theme'].concat(themePart))(props)
 
 
 /**
@@ -26,7 +58,7 @@ export const cond = (condProp, themePart) => props =>
  * @return {Number}               Breakpoint size in pixels
  */
 export const breakpoint = (target, size = 'medium') =>
-  path(['theme', 'breakpoints', target, size])
+  getByPath(['theme', 'breakpoints', target, size])
 
 
 /**
@@ -35,7 +67,7 @@ export const breakpoint = (target, size = 'medium') =>
  * @return {String}             Color from palette
  */
 export const palette = (name, shade = '') =>
-  path(['theme', 'palette', `${name}${shade}`])
+  getByPath(['theme', 'palette', `${name}${shade}`])
 
 
 /**
@@ -43,7 +75,7 @@ export const palette = (name, shade = '') =>
  * @return {Number}
  */
 export const size = name =>
-  path(['theme', 'sizes', name])
+  getByPath(['theme', 'sizes', name])
 
 
 /**

@@ -6,6 +6,7 @@ import {
   size,
   propIf,
   propIfElse,
+  getErrorMessage,
 } from '../src/index'
 
 describe('utils', () => {
@@ -47,15 +48,22 @@ describe('utils', () => {
       const result = theme('color')(_props)
       expect(result).toBe(_props.theme.color)
     })
-
     it('with array path', () => {
       const result = theme(['color'])(_props)
       expect(result).toBe(_props.theme.color)
     })
-
     it('with deep array path', () => {
       const result = theme(['color', 'gray', 'light'])(_props)
       expect(result).toBe(_props.theme.color.gray.light)
+    })
+    it('non exists key by array path', () => {
+      const path = ['color', 'gray', 'NOTFOUND']
+      try {
+        theme(path)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', ...path]))
+      }
     })
   })
 
@@ -85,12 +93,22 @@ describe('utils', () => {
       expect(result).toBe(false)
     })
     it('on non exists path string', () => {
-      const result = cond('truthy', 'NOTFOUND')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      try {
+        cond('truthy', name)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', name]))
+      }
     })
     it('on non exists path deep array', () => {
-      const result = cond('truthy', ['color', 'NOTFOUND', 'light'])(_props)
-      expect(result).toBe(undefined)
+      const path = ['color', 'NOTFOUND', 'light']
+      try {
+        cond('truthy', path)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', ...path]))
+      }
     })
   })
 
@@ -104,16 +122,34 @@ describe('utils', () => {
       expect(result).toBe(_props.theme.breakpoints.desktop.small)
     })
     it('non exists with default', () => {
-      const result = breakpoint('NOTFOUND')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      const size = 'medium'
+      try {
+        breakpoint(name, size)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'breakpoints', name, size]))
+      }
     })
     it('non exists with custom', () => {
-      const result = breakpoint('NOTFOUND', 'ERROR')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      const size = 'ERROR'
+      try {
+        breakpoint('NOTFOUND', 'ERROR')(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'breakpoints', name, size]))
+      }
     })
     it('exists with custom non exists size', () => {
-      const result = breakpoint('desktop', 'NOTFOUNDSIZE')(_props)
-      expect(result).toBe(undefined)
+      const name = 'desktop'
+      const size = 'NOTFOUNDSIZE'
+      try {
+        breakpoint('desktop', 'NOTFOUNDSIZE')(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'breakpoints', name, size]))
+      }
     })
   })
 
@@ -127,16 +163,33 @@ describe('utils', () => {
       expect(result).toBe(_props.theme.palette.primaryLight)
     })
     it('non exists palette without shade', () => {
-      const result = palette('NOTFOUND')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      try {
+        palette(name)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'palette', name]))
+      }
     })
     it('non exists palette with custom shade', () => {
-      const result = palette('NOTFOUND', 'ASD')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      const shade = 'ASD'
+      try {
+        palette(name, shade)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'palette', `${name}${shade}`]))
+      }
     })
     it('exists palette with non exists shade', () => {
-      const result = palette('primary', 'NOTFOUND')(_props)
-      expect(result).toBe(undefined)
+      const name = 'primary'
+      const shade = 'NOTFOUND'
+      try {
+        palette(name, shade)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'palette', `${name}${shade}`]))
+      }
     })
   })
 
@@ -150,8 +203,13 @@ describe('utils', () => {
       expect(result).toBe(_props.theme.sizes.block)
     })
     it('non exists size', () => {
-      const result = size('NOTFOUND')(_props)
-      expect(result).toBe(undefined)
+      const name = 'NOTFOUND'
+      try {
+        size(name)(_props)
+      }
+      catch (error) {
+        expect(error.message).toBe(getErrorMessage(['theme', 'sizes', name]))
+      }
     })
   })
 
